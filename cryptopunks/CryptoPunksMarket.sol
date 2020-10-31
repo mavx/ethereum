@@ -66,30 +66,6 @@ contract CryptoPunksMarket {
         decimals = 0;                                       // Amount of decimals for display purposes
     }
 
-    function setInitialOwner(address to, uint punkIndex) {
-        if (msg.sender != owner) throw;
-        if (allPunksAssigned) throw;
-        if (punkIndex >= 10000) throw;
-        if (punkIndexToAddress[punkIndex] != to) {
-            if (punkIndexToAddress[punkIndex] != 0x0) {
-                balanceOf[punkIndexToAddress[punkIndex]]--;
-            } else {
-                punksRemainingToAssign--;
-            }
-            punkIndexToAddress[punkIndex] = to;
-            balanceOf[to]++;
-            Assign(to, punkIndex);
-        }
-    }
-
-    function setInitialOwners(address[] addresses, uint[] indices) {
-        if (msg.sender != owner) throw;
-        uint n = addresses.length;
-        for (uint i = 0; i < n; i++) {
-            setInitialOwner(addresses[i], indices[i]);
-        }
-    }
-
     function allInitialOwnersAssigned() {
         if (msg.sender != owner) throw;
         allPunksAssigned = true;
